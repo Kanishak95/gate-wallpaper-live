@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOD MODE GATE 2027</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&family=VT323&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100vw;height:100vh;overflow:hidden;background:#000;font-family:'Share Tech Mono';cursor:crosshair;}
+
+/* CRT SCANLINE EFFECT */
+.crt::before{
+content:" ";
+display:block;position:absolute;top:0;left:0;bottom:0;right:0;
+background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,0.25) 50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06));
+z-index:1000;background-size:100% 2px,3px 100%;pointer-events:none;
+}
+.crt::after{
+content:" ";display:block;position:absolute;top:0;left:0;bottom:0;right:0;
+background:rgba(18,16,16,0.1);opacity:0;z-index:1000;pointer-events:none;
+animation:flicker 0.15s infinite;
+}
+@keyframes flicker{0%{opacity:0.02}50%{opacity:0.05}100%{opacity:0.02}}
+
+/* VIGNETTE */
+.vignette{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;
+background:radial-gradient(ellipse at center,transparent 0%,rgba(0,0,0,0.8) 100%);}
+
+/* RGB TEXT */
+@keyframes rgb{0%{color:#00ff41;text-shadow:0 0 10px #00ff41}25%{color:#00bfff;text-shadow:0 0 10px #00bfff}50%{color:#ff00ff;text-shadow:0 0 10px #ff00ff}75%{color:#ff004c;text-shadow:0 0 10px #ff004c}100%{color:#00ff41;text-shadow:0 0 10px #00ff41}}
+
+/* MATRIX */
+canvas{position:absolute;width:100%;height:100%;z-index:1;}
+#matrix{z-index:1}
+#particles{z-index:2}
+#trail{z-index:3}
+
+/* HOLOGRAPHIC */
+#holo{position:absolute;width:100%;height:100%;z-index:4;pointer-events:none;}
+
+/* MAIN CONTAINER */
+.main{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:10;
+display:flex;flex-direction:column;align-items:center;gap:10px;}
+
+/* TITLE WITH 3D EFFECT */
+.title{
+font-size:clamp(40px,10vw,120px);font-family:'Orbitron';
+animation:rgb 3s infinite,float 4s ease-in-out infinite;
+text-shadow:0 0 20px #00ff41,0 0 40px #00ff41,0 0 60px #00bfff;
+transform:perspective(500px) rotateX(10deg);
+letter-spacing:0.1em;
+}
+.title::before{content:"GATE 2027";position:absolute;left:2px;top:0;color:#ff00ff;opacity:0.5;z-index:-1;transform:translateX(-2px);}
+.title::after{content:"GATE 2027";position:absolute;right:-2px;top:0;color:#00bfff;opacity:0.5;z-index:-1;transform:translateX(2px);}
+@keyframes float{0%,100%{transform:perspective(500px) rotateX(10deg) translateY(0)}50%{transform:perspective(500px) rotateX(10deg) translateY(-10px)}}
+
+/* MOTTO */
+.motto{font-size:clamp(12px,2vw,24px);color:#00ff41;text-shadow:0 0 10px #00ff41;
+font-family:'Rajdhani';letter-spacing:0.5em;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+
+/* DFQ */
+.dfq{
+font-size:clamp(24px,5vw,64px);color:#fff;
+font-family:'Orbitron';text-shadow:0 0 20px #fff,0 0 40px #00ff41,0 0 60px #00bfff;
+animation:blink 1s infinite;
+cursor:pointer;
+letter-spacing:0.1em;
+}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0.3}}
+
+/* COUNTDOWN */
+.count{
+font-size:clamp(16px,3vw,36px);color:#00bfff;
+font-family:'VT323';text-shadow:0 0 10px #00bfff;
+background:rgba(0,0,0,0.5);padding:10px 20px;border:1px solid #00bfff;
+box-shadow:0 0 20px rgba(0,191,255,0.3),inset 0 0 20px rgba(0,191,255,0.1);
+}
+
+/* STATUS BAR */
+.status-bar{
+position:absolute;top:0;left:0;width:100%;height:30px;background:linear-gradient(180deg,#0a0a0a,#000);
+border-bottom:1px solid #00ff41;display:flex;align-items:center;justify-content:space-between;
+padding:0 20px;font-size:12px;color:#00ff41;z-index:50;
+}
+.status-item{display:flex;align-items:center;gap:5px;}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#00ff41;animation:blink-dot 1s infinite;}
+@keyframes blink-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* QUOTES */
+.quote{position:absolute;font-size:clamp(10px,1.5vw,18px);opacity:0;transition:opacity 0.5s;z-index:50;
+font-family:'Rajdhani';max-width:250px;line-height:1.4;}
+.q1{top:12%;left:3%;color:#00ff41;text-align:left;opacity:1;font-size:clamp(12px,1.8vw,20px);text-shadow:0 0 10px currentColor;background:rgba(0,0,0,0.6);padding:15px;border-left:3px solid #00ff41;}
+.q2{top:12%;right:3%;color:#00ffcc;text-align:right;opacity:1;font-size:clamp(12px,1.8vw,20px);text-shadow:0 0 10px currentColor;background:rgba(0,0,0,0.6);padding:15px;border-right:3px solid #00ffcc;}
+.q3{bottom:30%;left:3%;color:#ffaa00;text-align:left;opacity:1;font-size:clamp(12px,1.8vw,20px);text-shadow:0 0 10px currentColor;background:rgba(0,0,0,0.6);padding:15px;border-left:3px solid #ffaa00;}
+.q4{bottom:30%;right:3%;color:#ff2aff;text-align:right;opacity:1;font-size:clamp(12px,1.8vw,20px);text-shadow:0 0 10px currentColor;background:rgba(0,0,0,0.6);padding:15px;border-right:3px solid #ff2aff;}
+
+/* WARNING */
+.warning{position:absolute;top:45%;width:100%;text-align:center;font-size:clamp(20px,4vw,48px);color:#ff004c;
+opacity:0;z-index:100;text-shadow:0 0 20px #ff004c;font-family:'Orbitron';
+transform:scale(0.5);transition:all 0.3s;}
+.warning.active{opacity:1;transform:scale(1);animation:warning-pulse 0.5s infinite;}
+@keyframes warning-pulse{0%,100%{text-shadow:0 0 20px #ff004c}50%{text-shadow:0 0 40px #ff004c,0 0 60px #ff004c}}
+
+/* FOCUS MODE */
+.focus{
+position:absolute;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.95);color:#ff004c;
+display:flex;justify-content:center;align-items:center;
+font-size:clamp(30px,8vw,80px);opacity:0;z-index:200;
+font-family:'Orbitron';text-shadow:0 0 30px #ff004c;
+letter-spacing:0.2em;
+}
+
+/* TERMINAL */
+.terminal{
+position:absolute;top:40px;left:20px;
+font-size:11px;color:#00ff41;z-index:60;
+font-family:'VT323';max-width:300px;
+text-shadow:0 0 5px #00ff41;
+}
+.terminal-line{opacity:0.7;}
+
+/* ACHIEVEMENTS */
+.achievement{
+position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+background:linear-gradient(135deg,#1a0a2e,#0a1a2e);border:2px solid #00ff41;
+padding:20px 40px;font-size:20px;color:#00ff41;z-index:300;
+opacity:0;pointer-events:none;box-shadow:0 0 30px #00ff41;
+}
+.achievement.show{animation:achievement-pop 3s forwards;}
+@keyframes achievement-pop{0%{opacity:0;transform:translate(-50%,-50%) scale(0)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}30%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0}}
+
+/* HEART RATE */
+.heart-rate{
+position:absolute;bottom:50px;right:20px;
+color:#ff004c;font-size:14px;z-index:60;
+}
+.heart-icon{animation:heartbeat 0.8s infinite;display:inline-block;}
+@keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+
+/* KEYBOARD HINT */
+.key-hint{
+position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+color:#444;font-size:12px;z-index:60;
+}
+
+/* COMPETITOR */
+.competitor{
+position:absolute;top:80px;right:20px;
+background:rgba(0,0,0,0.7);border:1px solid #ff004c;
+padding:15px;color:#ff004c;font-size:12px;z-index:60;
+font-family:'Rajdhani';
+}
+.comp-title{color:#ff004c;font-weight:bold;margin-bottom:5px;}
+.comp-bar{width:150px;height:8px;background:#333;margin-top:5px;}
+.comp-fill{height:100%;background:linear-gradient(90deg,#ff004c,#ff00ff);transition:width 0.5s;}
+
+/* GLITCH */
+.glitch{animation:glitch-effect 0.3s;}
+@keyframes glitch-effect{0%{transform:translate(0)}20%{transform:translate(-3px,3px)}40%{transform:translate(-3px,-3px)}60%{transform:translate(3px,3px)}80%{transform:translate(3px,-3px)}100%{transform:translate(0)}}
+
+/* SCREEN SHAKE */
+.shake{animation:shake 0.5s;}
+@keyframes shake{0%,100%{transform:translate(0)}10%,30%,50%,70%,90%{transform:translate(-5px)}20%,40%,60%,80%{transform:translate(5px)}}
+
+/* SOUND TOGGLE */
+.sound-toggle{position:absolute;top:35px;right:20px;z-index:60;cursor:pointer;color:#444;font-size:12px;}
+.sound-toggle:hover{color:#00ff41;}
+
+/* CUSTOM CURSOR */
+.cursor{position:fixed;width:20px;height:20px;border:1px solid #00ff41;border-radius:50%;
+pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
+box-shadow:0 0 10px #00ff41;transition:transform 0.1s,opacity 0.5s;
+}
+.cursor.pointer{transform:translate(-50%,-50%) scale(1.5);}
+.cursor.hidden{opacity:0;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+.quote{display:none}
+.terminal{max-width:150px;font-size:10px;}
+.competitor{display:none}
+}
+</style>
+</head>
+
+<body class="crt">
+
+<div class="vignette"></div>
+<canvas id="matrix"></canvas>
+<canvas id="particles"></canvas>
+<canvas id="trail"></canvas>
+<canvas id="holo"></canvas>
+
+<div class="status-bar">
+<div class="status-item"><div class="status-dot"></div>SYSTEM ONLINE</div>
+<div class="status-item" id="time"></div>
+<div class="status-item">GATE 2027</div>
+</div>
+
+<div class="main">
+<div class="title" id="title">GATE 2027</div>
+<div class="motto">DREAM • BELIEVE • ACHIEVE</div>
+<div class="dfq" id="dfq">DON'T F***ING QUIT</div>
+<div class="count" id="count"></div>
+</div>
+
+<div class="name" style="position:absolute;bottom:15px;width:100%;text-align:center;color:#00ff41;font-size:clamp(18px,3vw,36px);z-index:10;font-family:'Orbitron';letter-spacing:0.5em;text-shadow:0 0 20px #00ff41,0 0 40px #00bfff;animation:rgb 3s infinite;">KANISHAK</div>
+
+<div class="quote q1"></div>
+<div class="quote q2"></div>
+<div class="quote q3"></div>
+<div class="quote q4"></div>
+
+<div class="warning" id="warn">⚠ YOU ARE FALLING BEHIND ⚠</div>
+
+<div class="focus" id="focus">⚡ STUDY. FOCUS. CONQUER. ⚡</div>
+
+<div class="terminal" id="terminal"></div>
+
+<div class="heart-rate">
+<span class="heart-icon">♥</span> <span id="bpm">120</span> BPM
+</div>
+
+<div class="competitor" id="competitor">
+<div class="comp-title">🔴 COMPETITOR PROGRESS</div>
+<div id="comp-text">Solving problems...</div>
+<div class="comp-bar"><div class="comp-fill" id="comp-fill" style="width:0%"></div></div>
+</div>
+
+<div class="achievement" id="achievement"></div>
+
+<div class="sound-toggle" id="soundToggle">🔇 SOUND: OFF</div>
+
+<div class="cursor" id="cursor"></div>
+
+<div class="key-hint">[S] Sound • [F] Focus • [H] Hint • [SPACE] Glitch • [DBL-CLICK] Fullscreen</div>
+
+<script>
+// AUDIO CONTEXT
+let audioCtx=null;
+let soundEnabled=false;
+
+function initAudio(){
+if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+}
+
+function playTone(freq,duration,type='sine'){
+if(!soundEnabled||!audioCtx)return;
+const osc=audioCtx.createOscillator();
+const gain=audioCtx.createGain();
+osc.type=type;osc.frequency.value=freq;
+gain.gain.setValueAtTime(0.1,audioCtx.currentTime);
+gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+duration);
+osc.connect(gain);gain.connect(audioCtx.destination);
+osc.start();osc.stop(audioCtx.currentTime+duration);
+}
+
+// SOUND TOGGLE
+document.getElementById('soundToggle').onclick=()=>{
+soundEnabled=!soundEnabled;
+document.getElementById('soundToggle').innerText=soundEnabled?'🔊 SOUND: ON':'🔇 SOUND: OFF';
+if(soundEnabled)initAudio();
+playTone(800,0.1);
+};
+
+// CURSOR
+const cursor=document.getElementById('cursor');
+let cursorTimeout;
+document.addEventListener('mousemove',e=>{
+cursor.style.left=e.clientX+'px';
+cursor.style.top=e.clientY+'px';
+cursor.classList.remove('hidden');
+clearTimeout(cursorTimeout);
+cursorTimeout=setTimeout(()=>cursor.classList.add('hidden'),3000);
+});
+document.addEventListener('click',()=>cursor.classList.add('pointer'));
+document.addEventListener('mouseup',()=>cursor.classList.remove('pointer'));
+
+// Auto fullscreen on double click
+document.addEventListener('dblclick',()=>{
+if(!document.fullscreenElement){
+document.documentElement.requestFullscreen();
+}else{
+document.exitFullscreen();
+}
+});
+
+// MATRIX RAIN ENHANCED
+const c=document.getElementById("matrix");
+const ctx=c.getContext("2d");
+c.width=innerWidth;c.height=innerHeight;
+
+const chars="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%^&*";
+const size=14;
+let cols=Math.floor(innerWidth/size);
+let drops=Array(cols).fill(1);
+
+function draw(){
+ctx.fillStyle="rgba(0,0,0,0.04)";
+ctx.fillRect(0,0,c.width,c.height);
+ctx.fillStyle="#00ff41";
+ctx.font=size+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+let t=chars[Math.floor(Math.random()*chars.length)];
+ctx.fillText(t,i*size,drops[i]*size);
+if(drops[i]*size>c.height&&Math.random()>0.975)drops[i]=0;
+drops[i]++;
+}
+}
+setInterval(draw,35);
+
+// PARTICLES NETWORK ENHANCED
+const pc=document.getElementById("particles");
+const pctx=pc.getContext("2d");
+pc.width=innerWidth;pc.height=innerHeight;
+
+let ps=[];
+for(let i=0;i<80;i++){
+ps.push({
+x:Math.random()*innerWidth,
+y:Math.random()*innerHeight,
+vx:(Math.random()-0.5)*2,
+vy:(Math.random()-0.5)*2,
+r:Math.random()*2+1,
+hue:Math.random()*60+160
+});
+}
+
+function drawP(){
+pctx.clearRect(0,0,pc.width,pc.height);
+ps.forEach(p=>{
+p.x+=p.vx;p.y+=p.vy;
+if(p.x<0||p.x>innerWidth)p.vx*=-1;
+if(p.y<0||p.y>innerHeight)p.vy*=-1;
+
+pctx.fillStyle=`hsl(${p.hue},100%,50%)`;
+pctx.beginPath();
+pctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+pctx.fill();
+
+ps.forEach(p2=>{
+let dx=p.x-p2.x,dy=p.y-p2.y;
+let d=Math.sqrt(dx*dx+dy*dy);
+if(d<150){
+pctx.strokeStyle=`hsla(${p.hue},100%,50%,${0.15*(1-d/150)})`;
+pctx.beginPath();
+pctx.moveTo(p.x,p.y);
+pctx.lineTo(p2.x,p2.y);
+pctx.stroke();
+}
+});
+});
+requestAnimationFrame(drawP);
+}
+drawP();
+
+// MOUSE TRAIL
+const tc=document.getElementById("trail");
+const tctx=tc.getContext("2d");
+tc.width=innerWidth;tc.height=innerHeight;
+
+let trail=[];
+document.addEventListener('mousemove',e=>{
+trail.push({x:e.clientX,y:e.clientY,life:1});
+if(trail.length>30)trail.shift();
+});
+
+function drawTrail(){
+tctx.clearRect(0,0,tc.width,tc.height);
+trail.forEach((p,i)=>{
+p.life-=0.03;
+if(p.life<=0)return;
+tctx.fillStyle=`rgba(0,255,65,${p.life*0.5})`;
+tctx.beginPath();
+tctx.arc(p.x,p.y,p.life*8,0,Math.PI*2);
+tctx.fill();
+tctx.strokeStyle=`rgba(0,191,255,${p.life*0.3})`;
+tctx.beginPath();
+tctx.arc(p.x,p.y,p.life*15,0,Math.PI*2);
+tctx.stroke();
+});
+requestAnimationFrame(drawTrail);
+}
+drawTrail();
+
+// HOLOGRAPHIC 3D RINGS
+const hc=document.getElementById("holo");
+const hctx=hc.getContext("2d");
+hc.width=innerWidth;hc.height=innerHeight;
+
+let rings=[];
+for(let i=0;i<3;i++){
+rings.push({r:100+i*80,angle:0,speed:0.01*(i+1),color:['#00ff41','#00bfff','#ff00ff'][i]});
+}
+
+function drawHolo(){
+hctx.clearRect(0,0,hc.width,hc.height);
+const cx=innerWidth/2,cy=innerHeight/2;
+rings.forEach(ring=>{
+ring.angle+=ring.speed;
+hctx.strokeStyle=ring.color;
+hctx.lineWidth=1;
+hctx.globalAlpha=0.3;
+hctx.beginPath();
+hctx.ellipse(cx,cy,ring.r,ring.r*0.3,ring.angle,0,Math.PI*2);
+hctx.stroke();
+hctx.globalAlpha=1;
+});
+requestAnimationFrame(drawHolo);
+}
+drawHolo();
+
+// COUNTDOWN
+const target=new Date("2027-02-06T09:00:00");
+function update(){
+let now=new Date();
+let diff=target-now;
+let d=Math.floor(diff/86400000);
+let h=Math.floor(diff%86400000/3600000);
+let m=Math.floor(diff%3600000/60000);
+let s=Math.floor(diff%60000/1000);
+document.getElementById("count").innerText=`${d}d ${h}h ${m}m ${s}s`;
+document.getElementById("time").innerText=now.toLocaleTimeString();
+}
+setInterval(update,1000);
+update();
+
+// QUOTES - ENHANCED
+const quotes=[
+"Tu scroll kar raha hai… koi aur DSA crack kar raha hai.",
+"GitHub khali hai… aur sapne bade hain.",
+"Time ja raha hai… aur tu rukha hua hai.",
+"Every second matters. Every problem counts.",
+"Aaj nahi toh kab? Tomorrow never comes.",
+"Someone is practicing RIGHT NOW.",
+"Your competition doesn't sleep. Why should you?",
+"Pain is temporary. Pride is forever.",
+"Success is built when no one's watching.",
+"The dream is free. The hustle is sold separately.",
+"Σ (sigma) = Sum of all sacrifices",
+"π (pi) = Never ending struggle",
+"∫ (integral) = Your effort accumulates",
+"∆ (delta) = Change begins NOW"
+];
+
+const qEls=document.querySelectorAll(".quote");
+
+function type(el,text){
+el.innerHTML="";
+let i=0;
+function t(){
+if(i<text.length){
+el.innerHTML+=text[i++];
+if(soundEnabled)playTone(400+i*10,0.05);
+setTimeout(t,25);
+}
+}
+t();
+}
+
+function showQ(){
+qEls.forEach(e=>e.style.opacity=0);
+setTimeout(()=>{
+qEls.forEach(e=>{
+let q=quotes[Math.floor(Math.random()*quotes.length)];
+type(e,q);
+e.style.opacity=1;
+});
+},300);
+}
+showQ();
+setInterval(showQ,5000);
+
+// WARNING SYSTEM - ENHANCED
+let idleTime=0;
+setInterval(()=>idleTime++,1000);
+
+document.onmousemove=document.onkeydown=document.onclick=()=>idleTime=0;
+
+let warningActive=false;
+setInterval(()=>{
+if(idleTime>8&&!warningActive){
+warningActive=true;
+let w=document.getElementById("warn");
+w.innerText="⚠ WASTING TIME = FAILING ⚠";
+w.classList.add("active");
+document.body.classList.add("shake");
+playTone(200,0.3,'sawtooth');
+setTimeout(()=>{
+w.classList.remove("active");
+document.body.classList.remove("shake");
+warningActive=false;
+},2000);
+}
+},6000);
+
+// FOCUS MODE - ENHANCED
+let focusActive=false;
+function triggerFocus(){
+if(focusActive)return;
+focusActive=true;
+let f=document.getElementById("focus");
+f.style.opacity=1;
+f.style.animation="pulse-bg 0.5s";
+playTone(600,0.2);
+setTimeout(()=>{
+f.style.opacity=0;
+focusActive=false;
+},3000);
+}
+setInterval(()=>{if(Math.random()>0.75)triggerFocus()},12000);
+
+// TERMINAL AI - ENHANCED
+const logs=[
+"> Tracking 10,000+ competitors...",
+"> Someone solved HARD problem: 2min ago",
+"> Your ranking: DROPPING",
+"> Pressure increasing...",
+"> No excuses allowed...",
+"> Focus mode: RECOMMENDED",
+"> Deadline: APPROACHING",
+"> GitHub commits: 0 today",
+"> Problems solved: STagnant",
+"> Wake up. Time is running.",
+"> ⚠ ALERT: You are offline mentally",
+"> Calculating failure probability...",
+"> 847 users passed you today",
+"> Your potential: UNLOCKED potential",
+"> Action required: START NOW"
+];
+
+setInterval(()=>{
+let t=document.getElementById("terminal");
+let l=document.createElement("div");
+l.className="terminal-line";
+l.innerText=logs[Math.floor(Math.random()*logs.length)];
+t.appendChild(l);
+if(t.children.length>8)t.removeChild(t.children[0]);
+if(soundEnabled)playTone(300,0.05);
+},2500);
+
+// GLITCH EFFECT
+setInterval(()=>{
+if(Math.random()>0.75){
+document.body.classList.add("glitch");
+playTone(150,0.1,'square');
+setTimeout(()=>document.body.classList.remove("glitch"),300);
+}
+},7000);
+
+// COMPETITOR SIMULATION
+let compProgress=0;
+function updateCompetitor(){
+compProgress+=Math.random()*5;
+if(compProgress>100)compProgress=0;
+document.getElementById("comp-fill").style.width=compProgress+"%";
+const msgs=[
+"Solving Graph problems...",
+"Completing DP chapter...",
+"Revising Arrays...",
+"Mock test in progress...",
+"Practice completed!",
+"Learning new algorithm..."
+];
+document.getElementById("comp-text").innerText=msgs[Math.floor(Math.random()*msgs.length)];
+if(soundEnabled)playTone(500,0.05);
+}
+setInterval(updateCompetitor,3000);
+
+// HEART RATE
+setInterval(()=>{
+let bpm=100+Math.floor(Math.random()*40);
+document.getElementById("bpm").innerText=bpm;
+},2000);
+
+// KEYBOARD SHORTCUTS
+document.addEventListener('keydown',e=>{
+if(e.key==='s'||e.key==='S'){
+document.getElementById('soundToggle').click();
+}else if(e.key==='f'||e.key==='F'){
+triggerFocus();
+}else if(e.key==='h'||e.key==='H'){
+showQ();
+}else if(e.key===' '){
+e.preventDefault();
+document.body.classList.add('glitch');
+setTimeout(()=>document.body.classList.remove('glitch'),300);
+playTone(800,0.15);
+}
+});
+
+// ACHIEVEMENTS
+const achievements=[
+"🎯 First Focus",
+"⚡ Speed Demon",
+"🔥 On Fire",
+"💀 No Sleep",
+"🏆 Never Give Up",
+"⚔️ Warrior",
+"🌟 Star Player",
+"🔥 Blaze of Glory"
+];
+
+let achShown=[];
+function showAchievement(){
+if(achShown.length>=achievements.length)achShown=[];
+const available=achievements.filter(a=>!achShown.includes(a));
+if(available.length===0)return;
+const ach=available[Math.floor(Math.random()*available.length)];
+achShown.push(ach);
+const el=document.getElementById("achievement");
+el.innerText=ach;
+el.classList.add("show");
+playTone(1000,0.2);
+setTimeout(()=>el.classList.remove("show"),3000);
+}
+setInterval(()=>{if(Math.random()>0.9)showAchievement()},10000);
+
+// DFQ CLICK
+document.getElementById("dfq").addEventListener("click",()=>{
+playTone(1200,0.1);
+document.getElementById("dfq").style.transform="scale(1.5)";
+setTimeout(()=>document.getElementById("dfq").style.transform="scale(1)",200);
+});
+
+// RANDOM COLOR BURST
+document.addEventListener("click",e=>{
+if(e.target.classList.contains("cursor"))return;
+const colors=['#00ff41','#00bfff','#ff00ff','#ff004c','#ffaa00'];
+const color=colors[Math.floor(Math.random()*colors.length)];
+const burst=document.createElement("div");
+burst.style.cssText=`position:fixed;left:${e.clientX}px;top:${e.clientY}px;width:10px;height:10px;background:${color};border-radius:50%;pointer-events:none;z-index:9999;animation:burst 0.5s forwards;`;
+document.body.appendChild(burst);
+setTimeout(()=>burst.remove(),500);
+});
+
+const style=document.createElement("style");
+style.textContent=`@keyframes burst{0%{transform:scale(1);opacity:1}100%{transform:scale(10);opacity:0}}`;
+document.head.appendChild(style);
+
+// WINDOW RESIZE
+window.addEventListener('resize',()=>{
+c.width=innerWidth;c.height=innerHeight;
+pc.width=innerWidth;pc.height=innerHeight;
+tc.width=innerWidth;tc.height=innerHeight;
+hc.width=innerWidth;hc.height=innerHeight;
+cols=Math.floor(innerWidth/size);
+drops=Array(cols).fill(1);
+ps=[];
+for(let i=0;i<80;i++){
+ps.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-0.5)*2,vy:(Math.random()-0.5)*2,r:Math.random()*2+1,hue:Math.random()*60+160});
+}
+});
+
+</script>
+</body>
+</html>
+
